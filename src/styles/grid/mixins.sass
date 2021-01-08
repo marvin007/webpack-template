@@ -1,0 +1,18 @@
+=mq-up($breakpoint-arg)
+    $breakpoint: map-get($grid-breakpoints, $breakpoint-arg)
+
+    @media (min-width: if($breakpoint, $breakpoint, $breakpoint-arg))
+        @content
+
+=mq-down($breakpoint-arg)
+    $breakpoint: map-get($grid-breakpoints, $breakpoint-arg)
+
+    @media (max-width: if($breakpoint, $breakpoint - 0.02, $breakpoint-arg))
+        @content
+
+=mq-between($breakpoint-arg-from, $breakpoint-arg-to)
+    $breakpoint-from: map-get($grid-breakpoints, $breakpoint-arg-from)
+    $breakpoint-to: map-get($grid-breakpoints, $breakpoint-arg-to)
+
+    @media (min-width: if($breakpoint-from, $breakpoint-from, $breakpoint-arg-from)) and (max-width: if($breakpoint-to, $breakpoint-to - 0.02, $breakpoint-arg-to))
+        @content

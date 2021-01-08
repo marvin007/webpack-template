@@ -1,0 +1,8 @@
+\:root
+    $breakpoints-list: ""
+
+    @each $breakpoint, $breakpoint-value in $grid-breakpoints
+        $breakpoints-list: "#{$breakpoints-list}#{if($breakpoints-list != "", "-", "")}#{$breakpoint}"
+
+        --breakpoint-#{$breakpoint}: #{$breakpoint-value}
+    --breakpoints-list: #{$breakpoints-list}

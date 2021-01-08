@@ -1,0 +1,18 @@
+=sprite-width($name)
+  width: sprite-width($name)
+
+=sprite-height($name)
+  height: sprite-height($name)
+
+=sprite-size($name)
+  +sprite-width($name)
+  +sprite-height($name)
+
+=sprite-bg($name)
+  background: url(sprite-path($name)) center center / contain no-repeat
+
+=sprite($name)
+  display: inline-block
+  +sprite-width($name)
+  +sprite-height($name)
+  +sprite-bg($name)

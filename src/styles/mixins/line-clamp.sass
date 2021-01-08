@@ -1,0 +1,8 @@
+=line-clamp($lines-count, $line-height) // firefox стал поддерживать -webkit-line-clamp
+  overflow: hidden
+  text-overflow: ellipsis
+  display: -webkit-box
+  -webkit-line-clamp: $lines-count
+  -webkit-box-orient: vertical
+  max-height: calc(#{$line-height} * #{$lines-count} * 1em)
+  line-height: $line-height

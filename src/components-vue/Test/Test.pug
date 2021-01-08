@@ -1,0 +1,10 @@
+include ../../templates/mixins
+
+.test-container
+    .test
+        .test__title {{ title }}
+        .test__mq screen max-width {{ breakpoints.sm }}px(mobile) - {{ isMobile }}
+        .test__sprite
+            +sprite('bell')
+        .test__lazyload
+            img.lazyload(:data-srcset="`${img}`" v-lazyload.after)

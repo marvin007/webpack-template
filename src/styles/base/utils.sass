@@ -1,0 +1,61 @@
+.clearfix
+  +clearfix
+
+// btn
+.btn-reset
+  +btn-reset
+
+// typography
+.text-underline
+  text-decoration: underline
+
+.text-center
+  text-align: center
+
+.text-right
+  text-align: right
+
+.text-left
+  text-align: left
+
+.text-nowrap
+  white-space: nowrap
+
+.text-bold
+  font-weight: 700
+
+// img
+.img-responsive
+  width: auto
+  height: auto
+  max-width: 100%
+  max-height: 100%
+
+// spacings
+
+// top spacings
+@for $i from 1 through 20
+  .mt-#{5 * $i}
+    margin-top: #{5 * $i}px !important
+
+// bottom spacings
+@for $i from 1 through 20
+  .mb-#{5 * $i}
+    margin-bottom: #{5 * $i}px !important
+
+// top paddings
+@for $i from 1 through 20
+  .pt-#{5 * $i}
+    margin-top: #{5 * $i}px !important
+
+// bottom paddings
+@for $i from 1 through 20
+  .pb-#{5 * $i}
+    margin-bottom: #{5 * $i}px !important
+
+// hidden
+.invisible
+  visibility: hidden !important
+
+.hidden
+  display: none !important

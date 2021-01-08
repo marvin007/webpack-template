@@ -1,0 +1,8 @@
+@function sprite-width($name)
+  @return map-deep-get($spritemap-sizes, $name, "width")
+
+@function sprite-height($name)
+  @return map-deep-get($spritemap-sizes, $name, "height")
+
+@function sprite-path($name)
+  @return map-get($spritemap-paths, $name)

@@ -1,0 +1,56 @@
+%container
+    --container-gap: #{$container-gap}
+    width: 100%
+    max-width: calc(100% - var(--container-gap, 0px) * 2)
+    margin-left: auto
+    margin-right: auto
+
+.container,
+.container-fluid
+    @extend %container
+
+@each $breakpoint, $container-width in $container-widths
+    .container-#{$breakpoint}
+        @extend %container
+    +mq-up($breakpoint)
+        %container-#{$breakpoint}
+            width: $container-width
+    @for $i from 0 through index(map-keys($container-widths), $breakpoint)
+        .container#{if($i != 0, "-#{nth(map-keys($container-widths), $i)}", "")}
+            @extend %container-#{$breakpoint}
+
+.grid
+    --grid-gap: #{$grid-gap}
+    display: grid
+    grid-template-columns: repeat($grid-columns, calc(100% / #{$grid-columns} - (var(--grid-gap, 0px) - var(--grid-gap, 0px) / #{$grid-columns})))
+    justify-content: space-between
+    align-content: start
+
+    > *
+        grid-column: span $grid-columns / span $grid-columns
+
+@for $i from 1 through $grid-columns
+    .col-#{$i}
+        grid-column: span #{$i} / span #{$i}
+
+@each $breakpoint in map-keys($grid-breakpoints)
+    +mq-up($breakpoint)
+        @for $i from 1 through $grid-columns
+            .col-#{$breakpoint}-#{$i}
+                grid-column: span #{$i} / span #{$i}
+
+@for $i from 1 through $grid-columns
+    .col-start-#{$i}
+        grid-column-start: $i
+
+    .col-end-#{$i}
+        grid-column-end: -$i
+
+@each $breakpoint in map-keys($grid-breakpoints)
+    +mq-up($breakpoint)
+        @for $i from 1 through $grid-columns
+            .col-start-#{$breakpoint}-#{$i}
+                grid-column-start: $i
+
+            .col-end-#{$breakpoint}-#{$i}
+                grid-column-end: -$i

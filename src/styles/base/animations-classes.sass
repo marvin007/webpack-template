@@ -1,0 +1,26 @@
+.fade
+  opacity: 0
+  transition: $transition-fade
+
+.show
+  opacity: 1
+
+.collapse:not(.show)
+  display: none
+
+.collapsing
+  position: relative
+  height: 0
+  overflow: hidden
+  transition: height 0.35s ease
+
+.animated
+  visibility: visible
+  animation-duration: $transition-duration
+  animation-fill-mode: both
+
+.animated--infinite
+  animation-iteration-count: infinite
+
+.fade-in-up
+  animation-name: fade-in-up

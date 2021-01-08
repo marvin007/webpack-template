@@ -1,0 +1,38 @@
+.btn
+  appearance: none
+  position: relative
+  display: inline-flex
+  align-items: center
+  border: none
+  border-radius: $border-radius
+  padding: 0 33px
+  height: 60px
+  font-weight: 700
+  font-size: 16px
+  line-height: 1.3
+  text-decoration: none
+  color: $color-white
+  background: $color-primary
+  transition-property: color, background
+  transition-duration: $transition-duration
+  cursor: pointer
+  user-select: none
+
+  &:hover
+    text-decoration: none
+    color: $color-white
+    background-color: darken($color-primary, 5%)
+
+  &:focus
+    color: $color-white
+    background-color: darken($color-primary, 5%)
+
+  &--disabled,
+  &[disabled]
+    background-color: $color-silver
+
+  +mq-down(md)
+    padding: 0 25px
+    height: 50px
+    font-size: 14px
+    line-height: 50px
