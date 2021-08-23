@@ -3,29 +3,34 @@ export default function(el, options = {}) {
         root: null,
         rootMargin: '0px',
         threshold: 0,
+        showAfterLoading: true,
         onLoad: null,
         ...options
     };
 
-    let src = el.dataset.src;
-    let srcset = el.dataset.srcset;
+    const src = el.dataset.src;
+    const srcset = el.dataset.srcset;
 
     function loadImage() {
-        let img = new Image();
+        if (options.showAfterLoading) {
+            let img = new Image();
 
-        img.addEventListener('load', () => {
-            setAttrs(el);
+            img.addEventListener('load', () => {
+                setAttrs(el);
 
-            window.requestAnimationFrame(() => {
-                el.removeAttribute('data-src');
-                el.removeAttribute('data-srcset');
-                el.classList.add('lazyload--loaded');
-                img = null;
-                if (typeof options.onLoad === 'function') onLoad(el);
+                window.requestAnimationFrame(() => {
+                    removeAttrs(el);
+                    el.classList.add('lazyload--loaded');
+                    img = null;
+                    if (typeof options.onLoad === 'function') options.onLoad(el);
+                });
             });
-        });
 
-        setImgAttrs(img);
+            setImgAttrs(img);
+        } else {
+            setAttrs(el);
+            removeAttrs(el);
+        }
     }
 
     function setAttrs(el) {
@@ -42,7 +47,12 @@ export default function(el, options = {}) {
     }
 
     function setElAttrs(el) {
-        el.style.backgroundImage = `url('${src || srcset}')`;
+        if (src) el.style.backgroundImage = `url('${src}')`;
+    }
+
+    function removeAttrs(el) {
+        el.removeAttribute('data-src');
+        el.removeAttribute('data-srcset');
     }
 
     function observerCallback(entries, observer) {
@@ -55,7 +65,7 @@ export default function(el, options = {}) {
     }
 
     function createIntersectionObserver() {
-        let config = {
+        const config = {
             root: options.root,
             rootMargin: options.rootMargin,
             threshold: options.threshold

@@ -3,6 +3,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const {
     paths,
 } = require(`${process.cwd()}/config`);
+const slash = require(`${process.cwd()}/utils/slash`);
 
 module.exports = () => {
     return new CopyWebpackPlugin([
@@ -10,7 +11,7 @@ module.exports = () => {
             from: paths.src.resources,
             ignore: [
                 '.*',
-                `${path.relative(paths.src.resources, paths.src.sprites)}/**`
+                `${slash(path.relative(paths.src.resources, paths.src.sprites))}/**`
             ]
         },
     ]);
