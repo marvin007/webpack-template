@@ -11,23 +11,26 @@
 html
   overflow-x: hidden
   overflow-y: scroll
-  height: 100%
+  min-height: 100vh
   min-width: 320px
   -webkit-font-smoothing: antialiased // сглаживание шрифта
   -moz-osx-font-smoothing: grayscale // сглаживание шрифта firefox
-  font-size: $font-size-root
   text-rendering: optimizeLegibility // качественное отображение шрифта (в ущерб скорости)
   -webkit-text-size-adjust: 100% // запретить корректировку размера шрифта
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0) // убирает синее подсвечивание при клике на девайсах
-
-body
-  height: 100%
   font-family: $font-family, "Arial", sans-serif
-  font-weight: 400
-  font-size: 1rem
+  font-size: $font-size-root
   line-height: 1.5
   color: $font-color
   background-color: $color-white
+
+  +mq-down(lg)
+    font-size: 14px
+
+body
+  min-height: 100vh
+  display: flex
+  flex-direction: column
 
 // плавное исчезновение placeholder
 input[placeholder],
@@ -91,7 +94,7 @@ textarea
   pointer-events: none
 
 \::selection
-  color: #fff
+  color: $color-white
   background: $color-primary
 
 table

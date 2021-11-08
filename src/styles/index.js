@@ -12,6 +12,7 @@ import '@/styles/base/utils.sass';
 // common
 import '@/styles/common/button.sass';
 import '@/styles/common/list.sass';
+import '@/styles/common/table.sass';
 import '@/styles/common/lazyload.sass';
 
 // animations
