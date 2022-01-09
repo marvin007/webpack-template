@@ -43,9 +43,9 @@ textarea[placeholder]
       opacity: 0
 
 // убираем желтый фон у полей при автозаполнении
-input
-  &:-webkit-autofill
-    transition-delay: 9999s
+//input
+//  &:-webkit-autofill
+//    transition-delay: 9999s
 
 \:focus,
 \:active,
@@ -74,12 +74,12 @@ img
 
 a
   text-decoration: none
-  color: $link-color
+  color: $color-primary
   transition: color $transition-duration
   background: none
 
   &:hover
-    color: $link-hover-color
+    color: darken($color-primary, 20%)
 
 textarea
   resize: none

@@ -1,0 +1,9 @@
+=autofill($bg-color: $color-white, $text-color: $font-color)
+    &:-webkit-autofill,
+    &:-webkit-autofill:hover,
+    &:-webkit-autofill:focus,
+    &:-webkit-autofill:active
+        transition-duration: 0s
+        -webkit-box-shadow: 0 0 0 100px $bg-color inset
+        -webkit-text-fill-color: $text-color
+        caret-color: $text-color
