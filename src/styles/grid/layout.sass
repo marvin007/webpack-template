@@ -22,12 +22,13 @@
 .grid
     --grid-gap: #{$grid-gap}
     display: grid
-    grid-template-columns: repeat($grid-columns, calc(100% / #{$grid-columns} - (var(--grid-gap, 0px) - var(--grid-gap, 0px) / #{$grid-columns})))
-    justify-content: space-between
+    grid-template-columns: repeat($grid-columns, calc(100% / #{$grid-columns} + var(--grid-gap, 0px) / #{$grid-columns}))
+    justify-content: end
     align-content: start
 
     > *
         grid-column: span $grid-columns / span $grid-columns
+        margin-left: var(--grid-gap, 0px)
 
 @for $i from 1 through $grid-columns
     .col-#{$i}
