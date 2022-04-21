@@ -19,7 +19,7 @@ const fileSources = {
 		importPath: `${paths.src.templates}/components.pug`,
 	},
 	sass: {
-		importSource: `@import "${paths.src.components}/{componentName}/{componentName}"`,
+        importSource: `@import "@/${slash(path.relative(paths.src.base, paths.src.components))}/{componentName}/{componentName}"`,
 		importPath: `${paths.src.styles}/components.sass`,
 	},
 };
