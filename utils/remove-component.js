@@ -9,7 +9,7 @@ const paths = require(`${process.cwd()}/config`).paths;
 const slash = require('./slash');
 const COMPONENTS_DIR = !yargs.argv.vue ? paths.src.components : paths.src.componentsVue;
 
-// //////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // default content for files in component
 const fileSources = {
@@ -18,10 +18,10 @@ const fileSources = {
 				`${paths.src.components}/{componentName}/{componentName}`))}`,
 		importPath: `${paths.src.templates}/components.pug`,
 	},
-	// sass: {
-	// 	importSource: `@import "${paths.src.components}/{componentName}/{componentName}"`,
-	// 	importPath: `${paths.src.scss}/_components.sass`,
-	// },
+	sass: {
+		importSource: `@import "${paths.src.components}/{componentName}/{componentName}"`,
+		importPath: `${paths.src.styles}/components.sass`,
+	},
 };
 
 function validateComponentName(componentName) {
@@ -57,7 +57,7 @@ function directoryExist(componentPath, componentName) {
 function removeDir(dirPath) {
 	return new Promise((resolve, reject) => {
 		function removeFolderRecursive(path) {
-			fs.readdirSync(path).forEach(function(file, index) {
+			fs.readdirSync(path).forEach(function(file) {
 				let curPath = path + "/" + file;
 				if (fs.lstatSync(curPath).isDirectory()) {
 					removeFolderRecursive(curPath);
@@ -78,7 +78,7 @@ function removeDir(dirPath) {
 }
 
 function removeImports(componentName) {
-	if (yargs.argv.vue) return new Promise((resolve, reject) => {resolve()});
+	if (yargs.argv.vue) return new Promise((resolve) => {resolve()});
 
 	const promises = [];
 
@@ -89,31 +89,33 @@ function removeImports(componentName) {
 		promises.push(
 			new Promise((resolve, reject) => {
 				fs.stat(fileImportPath, (error, stats) => {
-					let checkSize = !(error || stats.size === 0);
+                    if (error) {
+                        reject(`ERR>>> Failed to read a file '${fileImportPath}'`);
+                    } else {
+                        if (stats.size !== 0) {
+                            fs.readFile(fileImportPath, 'utf8', (error, data) => {
+                                if (error) {
+                                    reject(`ERR>>> Failed to remove from file '${fileImportPath}'`);
+                                } else {
+                                    if (data.includes(fileImportSource)) {
+                                        const newData = data.replace(new RegExp(`${fileImportSource}`, 'g'), '');
 
-					if (!checkSize) resolve();
-
-					fs.readFile(fileImportPath, 'utf8', (error, data) => {
-						if (error) {
-							reject(`ERR>>> Failed to remove from file '${fileImportPath}'`);
-						}
-
-						let newData;
-
-						if (data.includes(fileImportSource)) {
-							newData = data.replace(new RegExp(`${eol}${fileImportSource}`, 'g'), '').replace(new RegExp(`${fileImportSource}${eol}`, 'g'), '');
-
-							fs.writeFile(fileImportPath, newData, 'utf8', (error) => {
-								if (error) {
-									reject(`ERR>>> Failed to remove from file '${fileImportPath}'`);
-								} else {
-									resolve();
-								}
-							});
-						} else {
-							resolve();
-						}
-					});
+                                        fs.writeFile(fileImportPath, newData, 'utf8', (error) => {
+                                            if (error) {
+                                                reject(`ERR>>> Failed to remove from file '${fileImportPath}'`);
+                                            } else {
+                                                resolve();
+                                            }
+                                        });
+                                    } else {
+                                        resolve();
+                                    }
+                                }
+                            });
+                        } else {
+                            resolve();
+                        }
+                    }
 				});
 			})
 		);

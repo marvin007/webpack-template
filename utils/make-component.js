@@ -7,10 +7,10 @@ const readline = require('readline');
 const rl = readline.createInterface(process.stdin, process.stdout);
 const paths = require(`${process.cwd()}/config`).paths;
 const slash = require('./slash');
-const fileSources;
+let fileSources;
 const COMPONENTS_DIR = !yargs.argv.vue ? paths.src.components : paths.src.componentsVue;
 
-// //////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // default content for files in new component
 if (!yargs.argv.vue) {
@@ -21,11 +21,11 @@ if (!yargs.argv.vue) {
 				`${paths.src.components}/{componentName}/{componentName}`))}`,
 			importPath: `${paths.src.templates}/components.pug`,
 		},
-		// sass: {
-		// 	source: `.{componentName} ${eol}\tdisplay: block${eol}`,
-		// 	importSource: `@import "${paths.src.components}/{componentName}/{componentName}"`,
-		// 	importPath: `${paths.src.scss}/_components.sass`,
-		// },
+		sass: {
+			source: `.{componentName} ${eol}\tdisplay: block${eol}`,
+			importSource: `@import "@/${slash(path.relative(paths.src.base, paths.src.components))}/{componentName}/{componentName}"`,
+			importPath: `${paths.src.styles}/components.sass`,
+		},
 	};
 } else {
 	fileSources = {
@@ -127,34 +127,35 @@ function writeImports(componentName) {
 		promises.push(
 			new Promise((resolve, reject) => {
 				fs.stat(fileImportPath, (error, stats) => {
-					let checkSize = !(error || stats.size === 0);
-					let symbol = checkSize ? eol : '';
+                    if (error) {
+                        reject(`ERR>>> Failed to read a file '${fileImportPath}'`);
+                    } else {
+                        fs.readFile(fileImportPath, 'utf8', (error, data) => {
+                            if (error) {
+                                reject(`ERR>>> Failed to read a file '${fileImportPath}'`);
+                            } else {
+                                let newData = data;
 
-					fileImportSource = `${symbol}${fileImportSource}`;
+                                if (data.includes(fileImportSource)) {
+                                    newData = newData.replace(new RegExp(`${fileImportSource}`, 'g'), '');
+                                }
 
-					if (!checkSize) resolve();
+                                if (stats.size !== 0) {
+                                    fileImportSource = `${eol}${fileImportSource}`;
+                                }
 
-					fs.readFile(fileImportPath, 'utf8', (error, data) => {
-						if (error) {
-							reject(`ERR>>> Failed to read a file '${fileImportPath}'`);
-						}
+                                newData = `${newData}${fileImportSource}`;
 
-						let newData = data;
-
-						if (data.includes(fileImportSource)) {
-							newData = newData.replace(new RegExp(`${fileImportSource}`, 'g'), '');
-						}
-
-						newData = `${newData}${fileImportSource}`;
-
-						fs.writeFile(fileImportPath, newData, 'utf8', (error) => {
-							if (error) {
-								reject(`ERR>>> Failed to write a file '${fileImportPath}'`);
-							} else {
-								resolve();
-							}
-						});
-					});
+                                fs.writeFile(fileImportPath, newData, 'utf8', (error) => {
+                                    if (error) {
+                                        reject(`ERR>>> Failed to write a file '${fileImportPath}'`);
+                                    } else {
+                                        resolve();
+                                    }
+                                });
+                            }
+                        });
+                    }
 				});
 			})
 		);

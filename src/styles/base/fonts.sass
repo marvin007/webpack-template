@@ -1,9 +1,8 @@
-$fonts-ptsans: 400, 700
-
-@each $value in $fonts-ptsans
+@each $value in $fonts-montserrat
   @font-face
-    font-family: 'PTSans'
-    src: url("~@/resources/fonts/PTSans/PTSans-#{$value}.woff") format("woff"), url("~@/resources/fonts/PTSans/PTSans-#{$value}.woff") format("woff2")
+    font-family: 'Montserrat'
+    src: url("~@/resources/fonts/Montserrat/Montserrat-#{$value}.woff") format("woff"),
+    url("~@/resources/fonts/Montserrat/Montserrat-#{$value}.woff") format("woff2")
     font-weight: $value
     font-style: normal
     font-display: swap
