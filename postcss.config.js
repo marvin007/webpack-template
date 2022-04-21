@@ -16,7 +16,10 @@ if (env === 'production') {
 }
 
 postcssConfig.plugins.push(
-    require('autoprefixer')
+    require('autoprefixer'),
+    require('./utils/postcss-previous-hover-selector')({
+        selector: '.mousedetected'
+    })
 );
 
 module.exports = postcssConfig;
